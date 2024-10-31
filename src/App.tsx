@@ -54,6 +54,7 @@ export default function App() {
     <div className="App">
       <h1>Military Operations Dashboard</h1>
       <AddMissionForm onAdd={handleAddMission} />
+      {!missions.length && <p className="no-missions">No missions found</p>}
       <MissionList
         missions={missions}
         onDelete={handleDelete}
