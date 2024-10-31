@@ -1,56 +1,64 @@
-import { useEffect, useState } from "react";
-import {getMissions, addMission, deleteMission, updateMissionStatus,} from "./services/missionService";
-import { MissionDTO } from "./DTO/MissionDto";
-import { MissionStatus } from "./enums/MissionStatus";
-import MissionItem from "./components/MissionItem";
+// src/App.tsx
 
+import { useEffect, useState } from "react";
+import { getMissions, addMission, deleteMission, updateMissionStatus } from "./services/missionService";
+import { MissionDTO } from "./DTO/MissionDto";
+import MissionList from "./components/MissionList";
+import AddMissionForm from "./components/AddMissionForm";
 import "./App.css";
-import { MissionPriority } from "./enums/MissionPriority";
-import { MissionList } from "./components/MissionList";
 
 export default function App() {
-  const [missions, setMissions] = useState<MissionDTO[]>([
-    {
-      id: "1",
-      name: "Mission 1",
-      description: "Description of Mission 1",
-      status: MissionStatus.Pending,
-      priority: MissionPriority.Low,
-    },
-    {
-      id: "2",
-      name: "Mission 2",
-      description: "Description of Mission 2",
-      status: MissionStatus.InProgress,
-      priority: MissionPriority.Medium,
-    },
-    {
-      id: "3",
-      name: "Mission 3",
-      description: "Description of Mission 3",
-      status: MissionStatus.Completed,
-      priority: MissionPriority.High,
-    },
-  ]);
+  const [missions, setMissions] = useState<MissionDTO[]>([]);
+
+  const loadMissions = async () => {
+    try {
+      const missions = await getMissions();
+      setMissions(missions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const loadMissions = async () => {
-      try {
-        const missions = await getMissions();
-        setMissions(missions);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     loadMissions();
   }, []);
 
+  const handleAddMission = async (mission: MissionDTO): Promise<void> => {
+    try {
+      await addMission(mission);
+      setMissions(await getMissions());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async (id: string): Promise<void> => {
+    try {
+      await deleteMission(id);
+      setMissions(await getMissions());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateStatus = async (id: string): Promise<void> => {
+    try {
+      await updateMissionStatus(id);
+      setMissions(await getMissions());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <div className="App">
-      <h1>Missions Task Manager</h1>
+      <h1>Military Operations Dashboard</h1>
+      <AddMissionForm onAdd={handleAddMission} />
       <MissionList
         missions={missions}
-        />
+        onDelete={handleDelete}
+        onUpdateStatus={handleUpdateStatus}
+      />
     </div>
   );
 }

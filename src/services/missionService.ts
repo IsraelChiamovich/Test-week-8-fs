@@ -35,14 +35,14 @@ const deleteMission = async (id: string): Promise<void> => {
 };
 
 const updateMissionStatus = async (id: string): Promise<MissionDTO> => {
-  const response = await fetch(`${BASE_URL}/${MY_API_KEY}/progress/${id}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!response.ok) {
-    throw new Error("Failed to update mission status");
-  }
-  return response.json();
-};
+    const response = await fetch(`${BASE_URL}/${MY_API_KEY}/progress/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update mission status");
+    }
+    return response.json();
+  };
 
 export { getMissions, addMission, deleteMission, updateMissionStatus };
