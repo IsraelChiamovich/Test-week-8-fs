@@ -1,7 +1,6 @@
 // src/services/missionService.ts
 
 import { MissionDTO } from "../DTO/MissionDto";
-import { MissionStatus } from "../enums/MissionStatus";
 
 const BASE_URL = "https://reactexambackend.onrender.com/missions";
 const MY_API_KEY = "9023407";
@@ -35,11 +34,10 @@ const deleteMission = async (id: string): Promise<void> => {
   }
 };
 
-const updateMissionStatus = async (id: string, status: MissionStatus): Promise<MissionDTO> => {
+const updateMissionStatus = async (id: string): Promise<MissionDTO> => {
   const response = await fetch(`${BASE_URL}/${MY_API_KEY}/progress/${id}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status }),
   });
   if (!response.ok) {
     throw new Error("Failed to update mission status");
