@@ -26,8 +26,8 @@ export default function MissionItem({ mission, onDelete, onUpdateStatus }: Missi
 
   return (
     <div className={`mission-item ${getClassNameByStatus()}`}>
-      <h2>{mission.name}</h2>
-      <p>{mission.description}</p>
+      <h2>Name: {mission.name}</h2>
+      <p>Description: {mission.description}</p>
       <p>Status: {mission.status}</p>
       <p>Priority: {mission.priority}</p>
       <button onClick={() => onDelete(mission._id!)}>Delete</button>
